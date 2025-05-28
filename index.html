@@ -39,19 +39,19 @@
         /* Styling for the individual pinpoints on the map */
         .pinpoint {
             position: absolute; /* Absolute positioning relative to .map-container */
-            width: 24px; /* Size of the circular pinpoint */
-            height: 24px;
+            width: 8px; /* Size of the circular pinpoint */
+            height: 8px;
             background-color: #ff0000; /* Bright red color for visibility */
             border-radius: 50%; /* Make it perfectly circular */
             cursor: pointer; /* Indicate it's clickable */
-            border: 2px solid #fff; /* White border for contrast */
+            border: 1px solid #fff; /* White border for contrast */
             box-shadow: 0 0 8px rgba(255, 0, 0, 0.8); /* Glow effect */
             transform: translate(-50%, -50%); /* Center the pinpoint exactly on its coordinates */
             transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* Smooth hover effect */
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 14px;
+            font-size: 4px;
             font-weight: bold;
             color: #fff;
         }
