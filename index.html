@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urzikstan Bunker & Access Card Map</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Apply 'Inter' font and dark theme to the body */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #1a1a1a; /* Dark background */
+            color: #e0e0e0; /* Light text color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        /* Styling for the main map container */
+        .map-container {
+            position: relative;
+            max-width: 1200px; /* Maximum width for the map to prevent it from getting too large */
+            width: 100%; /* Make it responsive to screen width */
+            border-radius: 12px; /* Rounded corners for the container */
+            overflow: hidden; /* Hide anything that goes outside the rounded corners */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+            background-color: #333; /* Slightly lighter dark background for the container */
+        }
+        /* Styling for the map image itself */
+        .map-container img {
+            width: 100%; /* Ensure the image fills its container */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove extra space below image */
+            border-radius: 12px; /* Apply rounded corners to the image as well */
+        }
+        /* Styling for the individual pinpoints on the map */
+        .pinpoint {
+            position: absolute; /* Absolute positioning relative to .map-container */
+            width: 24px; /* Size of the circular pinpoint */
+            height: 24px;
+            background-color: #ff0000; /* Bright red color for visibility */
+            border-radius: 50%; /* Make it perfectly circular */
+            cursor: pointer; /* Indicate it's clickable */
+            border: 2px solid #fff; /* White border for contrast */
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.8); /* Glow effect */
+            transform: translate(-50%, -50%); /* Center the pinpoint exactly on its coordinates */
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* Smooth hover effect */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+        }
+        /* Hover effect for pinpoints */
+        .pinpoint:hover {
+            transform: translate(-50%, -50%) scale(1.2); /* Slightly enlarge on hover */
+            background-color: #cc0000; /* Darker red on hover */
+        }
+        /* Styling for the full-screen popup overlay */
+        .popup-overlay {
+            position: fixed; /* Fixed position to cover the entire screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Ensure it's on top of everything */
+            opacity: 0; /* Initially hidden */
+            visibility: hidden; /* Hidden from screen readers and interactions */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Smooth fade in/out */
+        }
+        /* Class to activate (show) the popup overlay */
+        .popup-overlay.active {
+            opacity: 1; /* Fully visible */
+            visibility: visible; /* Make it interactive */
+        }
+        /* Styling for the content box of the popup */
+        .popup-content {
+            background-color: #2a2a2a; /* Darker background for the content */
+            padding: 30px;
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7); /* Stronger shadow for the popup */
+            max-width: 500px; /* Max width for readability */
+            width: 90%; /* Responsive width */
+            text-align: center;
+            position: relative; /* For positioning the close button */
+            transform: translateY(-20px); /* Start slightly above its final position */
+            transition: transform 0.3s ease-in-out; /* Smooth slide-in effect */
+        }
+        /* Slide-in effect when popup becomes active */
+        .popup-overlay.active .popup-content {
+            transform: translateY(0); /* Move to final position */
+        }
+        /* Styling for the popup title */
+        .popup-content h2 {
+            font-size: 1.8rem; /* Larger font size */
+            margin-bottom: 15px;
+            color: #00e676; /* Green accent color for titles */
+        }
+        /* Styling for the popup information text */
+        .popup-content p {
+            font-size: 1.1rem; /* Slightly larger body text */
+            line-height: 1.6; /* Good line spacing for readability */
+            margin-bottom: 20px;
+            color: #c0c0c0; /* Lighter grey for body text */
+        }
+        /* Styling for the close button */
+        .popup-close {
+            position: absolute; /* Position relative to .popup-content */
+            top: 15px;
+            right: 15px;
+            background: none; /* No background */
+            border: none; /* No border */
+            font-size: 1.5rem; /* Large 'X' */
+            color: #e0e0e0; /* Light color */
+            cursor: pointer; /* Indicate clickable */
+            padding: 5px;
+            border-radius: 50%; /* Circular hit area */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; /* Smooth hover effect */
+        }
+        /* Hover effect for the close button */
+        .popup-close:hover {
+            background-color: #444; /* Darker background on hover */
+            color: #fff; /* White text on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container" id="mapContainer">
+        <!-- The Urzikstan map image. Replace 'https://placehold.co/1200x800/000000/FFFFFF?text=Urzikstan+Map'
+             with the actual path to your Urzikstan map image (e.g., 'urzikstan-map.jpg') -->
+        <img src="urzikstan-map.jpg" alt="Urzikstan Map" id="urzikstanMap">
+    </div>
+
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-content">
+            <button class="popup-close" id="popupClose">&times;</button>
+            <h2 id="popupTitle"></h2>
+            <p id="popupInfo"></p>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
