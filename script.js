@@ -19,60 +19,70 @@ document.addEventListener('DOMContentLoaded', () => {
             x: 20,
             y: 72,
             info: "<strong>Code:</strong> 04222021"
+            colorClass: 'pinpoint-orange' // This pinpoint will be blue
         },
         {
             name: "Bunker 2",
             x: 19,
             y: 61,
             info: "<strong>Blue Access Card</strong>"
+            colorClass: 'pinpoint-blue' // This pinpoint will be blue
         },
         {
             name: "Bunker 3",
             x: 19,
             y: 59,
             info: "<strong>30198805</strong>"
+            colorClass: 'pinpoint-orange' // This pinpoint will be blue
         },
         {
             name: "Bunker 4",
             x: 33,
             y: 28,
             info: "<strong>Red Access Card</strong>"
+            colorClass: 'pinpoint' // This pinpoint will be blue
         },
         {
             name: "Bunker 5",
             x: 47,
             y: 31,
             info: "<strong>Red Access Card</strong>"
+            colorClass: 'pinpoint' // This pinpoint will be blue
         },
         {
             name: "Bunker 6",
             x: 77,
             y: 37,
             info: "<strong>Red Access Card</strong>"
+            colorClass: 'pinpoint' // This pinpoint will be blue
         },
         {
             name: "Bunker 7",
             x: 70,
             y: 50.5,
             info: "<strong>Blue Access Card</strong>"
+            colorClass: 'pinpoint-blue' // This pinpoint will be blue
         },
         {
             name: "Bunker 8",
             x: 70,
             y: 48.5,
             info: "<strong>Blue Access Card</strong>"
+            colorClass: 'pinpoint-blue' // This pinpoint will be blue
         },
         {
             name: "Bunker 9",
             x: 59,
             y: 81,
             info: "<strong>Red Access Card</strong>"
+            colorClass: 'pinpoint' // This pinpoint will be blue
         },
         {
             name: "Bunker 10",
             x: 82,
             y: 81,
             info: "<strong>31547206</strong>"
+            colorClass: 'pinpoint-orange' // This pinpoint will be blue
         },
         {
             name: "Bunker 11",
