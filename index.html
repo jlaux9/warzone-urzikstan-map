@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urzikstan Bunker & Access Card Map</title>
+    <!-- Tailwind CSS CDN for easy styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Apply 'Inter' font and dark theme to the body */
@@ -36,16 +37,18 @@
             display: block; /* Remove extra space below image */
             border-radius: 12px; /* Apply rounded corners to the image as well */
         }
-        /* Styling for the individual pinpoints on the map */
-        .pinpoint-red {
+
+        /* --- Base Style for ALL Pinpoints --- */
+        /* This rule now contains the default red color and all common properties */
+        .pinpoint {
             position: absolute; /* Absolute positioning relative to .map-container */
             width: 8px; /* Size of the circular pinpoint */
             height: 8px;
-            background-color: #ff0000; /* Bright red color for visibility */
+            background-color: #ff0000; /* Default Red */
             border-radius: 50%; /* Make it perfectly circular */
             cursor: pointer; /* Indicate it's clickable */
             border: 1px solid #fff; /* White border for contrast */
-            box-shadow: 0 0 8px rgba(255, 0, 0, 0.8); /* Glow effect */
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.8); /* Red Glow effect */
             transform: translate(-50%, -50%); /* Center the pinpoint exactly on its coordinates */
             transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* Smooth hover effect */
             display: flex;
@@ -55,28 +58,30 @@
             font-weight: bold;
             color: #fff;
         }
-        /* Hover effect for pinpoints */
-        .pinpoint-red:hover {
+        /* Hover effect for default pinpoints */
+        .pinpoint:hover {
             transform: translate(-50%, -50%) scale(1.2); /* Slightly enlarge on hover */
             background-color: #cc0000; /* Darker red on hover */
         }
-            .pinpoint-blue {
-        background-color: #0669F9; /* Vibrant Blue */
-        box-shadow: 0 0 8px rgba(0, 123, 255, 0.8); /* Blue glow */
-    }
-            .pinpoint-blue:hover {
-        background-color: #0056b3; /* Darker blue on hover */
-    }
 
-    /* --- New Styles for Orange Pinpoints --- */
-    .pinpoint-orange {
-        background-color: #F48800; /* Orange */
-        box-shadow: 0 0 8px rgba(255, 165, 0, 0.8); /* Orange glow */
-    }
-    .pinpoint-orange:hover {
-        background-color: #cc8400; /* Darker orange on hover */
-    }
-        
+        /* --- Styles for Blue Pinpoints (Overrides base) --- */
+        .pinpoint-blue {
+            background-color: #0669F9; /* Vibrant Blue */
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.8); /* Blue glow */
+        }
+        .pinpoint-blue:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* --- Styles for Orange Pinpoints (Overrides base) --- */
+        .pinpoint-orange {
+            background-color: #F48800; /* Orange */
+            box-shadow: 0 0 8px rgba(255, 165, 0, 0.8); /* Orange glow */
+        }
+        .pinpoint-orange:hover {
+            background-color: #cc8400; /* Darker orange on hover */
+        }
+            
         /* Styling for the full-screen popup overlay */
         .popup-overlay {
             position: fixed; /* Fixed position to cover the entire screen */
