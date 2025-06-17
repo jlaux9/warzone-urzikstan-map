@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             x: 20,
             y: 72,
             info: "<strong>Code:</strong> 04222021"
+            colorClass: 'pinpoint-orange' // This pinpoint will be blue
         },
         {
             name: "Bunker 2",
@@ -39,21 +40,21 @@ document.addEventListener('DOMContentLoaded', () => {
             x: 33,
             y: 28,
             info: "<strong>Red Access Card</strong>"
-            colorClass: 'pinpoint' // This pinpoint will be blue
+            colorClass: 'pinpoint-red' // This pinpoint will be blue
         },
         {
             name: "Bunker 5",
             x: 47,
             y: 31,
             info: "<strong>Red Access Card</strong>"
-            colorClass: 'pinpoint' // This pinpoint will be blue
+            colorClass: 'pinpoint-red' // This pinpoint will be blue
         },
         {
             name: "Bunker 6",
             x: 77,
             y: 37,
             info: "<strong>Red Access Card</strong>"
-            colorClass: 'pinpoint' // This pinpoint will be blue
+            colorClass: 'pinpoint-red' // This pinpoint will be blue
         },
         {
             name: "Bunker 7",
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             x: 59,
             y: 81,
             info: "<strong>Red Access Card</strong>"
-            colorClass: 'pinpoint' // This pinpoint will be blue
+            colorClass: 'pinpoint-red' // This pinpoint will be blue
         },
         {
             name: "Bunker 10",
@@ -149,7 +150,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Create a new div element for the pinpoint
             const pinpoint = document.createElement('div');
-            pinpoint.classList.add('pinpoint'); // Add the base styling class
+            pinpoint.classList.add('pinpoint-red'); // Add the base styling class
+            if (location.colorClass) { // Check if a colorClass is defined for this location
+    pinpoint.classList.add(location.colorClass); // Add the specific color class
+}
             pinpoint.style.left = `${posX}px`; // Set horizontal position
             pinpoint.style.top = `${posY}px`;   // Set vertical position
             pinpoint.dataset.index = index; // Store the index to easily retrieve location data later
