@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urzikstan Bunker & Access Card Map</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Apply 'Inter' font and dark theme to the body */
         body {
@@ -36,30 +29,51 @@
             display: block; /* Remove extra space below image */
             border-radius: 12px; /* Apply rounded corners to the image as well */
         }
-        /* Styling for the individual pinpoints on the map */
+
+        /* --- Base Style for ALL Pinpoints --- */
+        /* This rule defines common properties and the default (red) color */
         .pinpoint {
             position: absolute; /* Absolute positioning relative to .map-container */
             width: 8px; /* Size of the circular pinpoint */
             height: 8px;
-            background-color: #ff0000; /* Bright red color for visibility */
+            background-color: #ff0000; /* Default Red */
             border-radius: 50%; /* Make it perfectly circular */
             cursor: pointer; /* Indicate it's clickable */
             border: 1px solid #fff; /* White border for contrast */
-            box-shadow: 0 0 8px rgba(255, 0, 0, 0.8); /* Glow effect */
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.8); /* Red Glow effect */
             transform: translate(-50%, -50%); /* Center the pinpoint exactly on its coordinates */
             transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* Smooth hover effect */
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 4px;
+            font-size: 4px; /* Size of the number inside the pinpoint */
             font-weight: bold;
             color: #fff;
         }
-        /* Hover effect for pinpoints */
+        /* Hover effect for default pinpoints */
         .pinpoint:hover {
             transform: translate(-50%, -50%) scale(1.2); /* Slightly enlarge on hover */
             background-color: #cc0000; /* Darker red on hover */
         }
+
+        /* --- Styles for Blue Pinpoints (Overrides base .pinpoint) --- */
+        .pinpoint-blue {
+            background-color: #0669F9; /* Vibrant Blue */
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.8); /* Blue glow */
+        }
+        .pinpoint-blue:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* --- Styles for Orange Pinpoints (Overrides base .pinpoint) --- */
+        .pinpoint-orange {
+            background-color: #F48800; /* Orange */
+            box-shadow: 0 0 8px rgba(255, 165, 0, 0.8); /* Orange glow */
+        }
+        .pinpoint-orange:hover {
+            background-color: #cc8400; /* Darker orange on hover */
+        }
+            
         /* Styling for the full-screen popup overlay */
         .popup-overlay {
             position: fixed; /* Fixed position to cover the entire screen */
@@ -131,22 +145,4 @@
             color: #fff; /* White text on hover */
         }
     </style>
-</head>
-<body>
-    <div class="map-container" id="mapContainer">
-        <!-- The Urzikstan map image. Replace 'https://placehold.co/1200x800/000000/FFFFFF?text=Urzikstan+Map'
-             with the actual path to your Urzikstan map image (e.g., 'urzikstan-map.jpg') -->
-        <img src="urzikstan-map.jpg" alt="Urzikstan Map" id="urzikstanMap">
-    </div>
-
-    <div class="popup-overlay" id="popupOverlay">
-        <div class="popup-content">
-            <button class="popup-close" id="popupClose">&times;</button>
-            <h2 id="popupTitle"></h2>
-            <p id="popupInfo"></p>
-        </div>
-    </div>
-
-    <script src="script.js" defer></script>
-</body>
-</html>
+    
