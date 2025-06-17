@@ -91,6 +91,27 @@ document.addEventListener('DOMContentLoaded', () => {
             y: 20,
             info: "<strong>Locate a red phone that provides a sequence of three numbers spoken in Russian. These numbers must then be translated into English. If the phone disconnects during interaction, it’s an incorrect one, and players will need to search for a different red phone elsewhere on the map</strong>",
             colorClass: "pinpoint-orange"
+        },
+        {
+            name: "Prison Shack",
+            x: 73,
+            y: 86,
+            info: "<strong>13584927</strong>",
+            colorClass: "pinpoint-orange"
+        },
+        {
+            name: "Farmland Shack",
+            x: 76,
+            y: 65,
+            info: "<strong>36158294</strong>",
+            colorClass: "pinpoint-orange"
+        },
+        {
+            name: "TV Station Shack",
+            x: 55,
+            y: 45,
+            info: "<strong>01859472</strong>",
+            colorClass: "pinpoint-orange"
         }
     ];
 
