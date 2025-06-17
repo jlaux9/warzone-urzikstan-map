@@ -20,77 +20,77 @@ document.addEventListener('DOMContentLoaded', () => {
             x: 20,
             y: 72,
             info: "<strong>Code:</strong> 04222021",
-            colorClass: "pinpoint-red" // Assign a color class
+            colorClass: "pinpoint-red"
         },
         {
             name: "Bunker 2",
             x: 19,
             y: 61,
             info: "<strong>Blue Access Card</strong>",
-            colorClass: "pinpoint-blue" // Assign a color class
+            colorClass: "pinpoint-blue"
         },
         {
             name: "Bunker 3",
             x: 19,
             y: 59,
             info: "<strong>30198805</strong>",
-            colorClass: "pinpoint-red" // Assign a color class
+            colorClass: "pinpoint-red"
         },
         {
             name: "Bunker 4",
             x: 33,
             y: 28,
             info: "<strong>Red Access Card</strong>",
-            colorClass: "pinpoint-red" // Assign a color class
+            colorClass: "pinpoint-red"
         },
         {
             name: "Bunker 5",
             x: 47,
             y: 31,
             info: "<strong>Red Access Card</strong>",
-            colorClass: "pinpoint-red" // Assign a color class
+            colorClass: "pinpoint-red"
         },
         {
             name: "Bunker 6",
             x: 77,
             y: 37,
             info: "<strong>Red Access Card</strong>",
-            colorClass: "pinpoint-red" // Assign a color class
+            colorClass: "pinpoint-red"
         },
         {
             name: "Bunker 7",
             x: 70,
             y: 50.5,
             info: "<strong>Blue Access Card</strong>",
-            colorClass: "pinpoint-blue" // Assign a color class
+            colorClass: "pinpoint-blue"
         },
         {
             name: "Bunker 8",
             x: 70,
             y: 48.5,
             info: "<strong>Blue Access Card</strong>",
-            colorClass: "pinpoint-blue" // Assign a color class
+            colorClass: "pinpoint-blue"
         },
         {
             name: "Bunker 9",
             x: 59,
             y: 81,
             info: "<strong>Red Access Card</strong>",
-            colorClass: "pinpoint-red" // Assign a color class
+            colorClass: "pinpoint-red"
         },
         {
             name: "Bunker 10",
             x: 82,
             y: 81,
             info: "<strong>31547206</strong>",
-            colorClass: "pinpoint-orange" // Assign a color class
+            colorClass: "pinpoint-orange"
         },
         {
             name: "Bunker 11",
             x: 42,
             y: 20,
             info: "<strong>Locate a red phone that provides a sequence of three numbers spoken in Russian. These numbers must then be translated into English. If the phone disconnects during interaction, it’s an incorrect one, and players will need to search for a different red phone elsewhere on the map</strong>",
-            colorClass: "pinpoint-orange" // Assign a color class
+            colorClass: "pinpoint-orange"
         }
     ];
 
@@ -117,12 +117,20 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const createPinpoints = () => {
         // Remove any existing pinpoints to prevent duplicates when resizing
-        // Now targeting all pinpoint classes for removal
         document.querySelectorAll('.pinpoint-red, .pinpoint-blue, .pinpoint-orange').forEach(pin => pin.remove());
 
         // Get the current rendered dimensions of the map image
         const mapWidth = urzikstanMap.offsetWidth;
         const mapHeight = urzikstanMap.offsetHeight;
+
+        // IMPORTANT: Check if dimensions are valid. If not, the image might not be fully rendered yet.
+        if (mapWidth === 0 || mapHeight === 0) {
+            console.warn('Map image dimensions are zero. Pinpoints might not be positioned correctly yet. Retrying...');
+            // Retry after a short delay if dimensions are zero, allowing browser to render.
+            // This is a safety net for slow rendering or caching issues.
+            setTimeout(createPinpoints, 50);
+            return; // Exit to avoid placing pinpoints incorrectly
+        }
 
         // Iterate over each location and create a corresponding pinpoint
         locations.forEach((location, index) => {
@@ -183,22 +191,29 @@ document.addEventListener('DOMContentLoaded', () => {
      * This ensures the pinpoints remain correctly placed on different screen sizes.
      */
     const handleResize = () => {
-        // Only proceed if the map image has finished loading and has valid dimensions.
+        // Ensure the image has valid dimensions before attempting to create pinpoints.
+        // This check is crucial for mobile browsers that might not render image dimensions immediately.
         if (urzikstanMap.offsetWidth > 0 && urzikstanMap.offsetHeight > 0) {
             createPinpoints(); // Recreate all pinpoints with new dimensions
+        } else {
+            // If dimensions are still zero, log a warning and possibly retry.
+            console.warn('handleResize: Map image dimensions are zero. Pinpoints cannot be created accurately yet.');
+            // Add a small delay and retry to give the browser more time to render
+            setTimeout(createPinpoints, 100);
         }
     };
 
-    // Set up an event listener for when the map image has fully loaded.
-    urzikstanMap.onload = handleResize;
+    // Use a slightly different approach for initial load:
+    // Listen for the 'load' event on the window, which ensures all assets (including images) are fully loaded.
+    // This is often more reliable than just img.onload or DOMContentLoaded for initial image sizing.
+    window.addEventListener('load', handleResize);
+
+    // If the image is already complete (from cache), attempt to create pinpoints.
+    // Add a slight delay here as well to give the browser's rendering engine a moment.
+    if (urzikstanMap.complete) {
+        setTimeout(handleResize, 50);
+    }
 
     // Add a global resize listener to the window, DEBOUNCED for performance.
-    // This will trigger pinpoint re-positioning only after resizing has stopped for 100ms.
-    window.addEventListener('resize', debounce(handleResize, 150)); // Adjusted delay to 150ms for good balance
-
-    // Edge case: If the image is already in the browser's cache, the 'onload' event might not fire.
-    // In this scenario, we manually call handleResize to ensure pinpoints are created.
-    if (urzikstanMap.complete) {
-        handleResize();
-    }
+    window.addEventListener('resize', debounce(handleResize, 150));
 });
