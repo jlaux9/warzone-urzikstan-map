@@ -13,72 +13,84 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define an array of key locations with their relative coordinates (percentages)
     // and the information to display in the popup.
     // 'x' and 'y' are percentages (0-100) from the top-left corner of the map image.
+    // Added a 'colorClass' property to specify the pinpoint style.
     const locations = [
         {
             name: "Bunker 1",
             x: 20,
             y: 72,
-            info: "<strong>Code:</strong> 04222021"
+            info: "<strong>Code:</strong> 04222021",
+            colorClass: "pinpoint-red" // Assign a color class
         },
         {
             name: "Bunker 2",
             x: 19,
             y: 61,
-            info: "<strong>Blue Access Card</strong>"
+            info: "<strong>Blue Access Card</strong>",
+            colorClass: "pinpoint-blue" // Assign a color class
         },
         {
             name: "Bunker 3",
             x: 19,
             y: 59,
-            info: "<strong>30198805</strong>"
+            info: "<strong>30198805</strong>",
+            colorClass: "pinpoint-red" // Assign a color class
         },
         {
             name: "Bunker 4",
             x: 33,
             y: 28,
-            info: "<strong>Red Access Card</strong>"
+            info: "<strong>Red Access Card</strong>",
+            colorClass: "pinpoint-red" // Assign a color class
         },
         {
             name: "Bunker 5",
             x: 47,
             y: 31,
-            info: "<strong>Red Access Card</strong>"
+            info: "<strong>Red Access Card</strong>",
+            colorClass: "pinpoint-red" // Assign a color class
         },
         {
             name: "Bunker 6",
             x: 77,
             y: 37,
-            info: "<strong>Red Access Card</strong>"
+            info: "<strong>Red Access Card</strong>",
+            colorClass: "pinpoint-red" // Assign a color class
         },
         {
             name: "Bunker 7",
             x: 70,
             y: 50.5,
-            info: "<strong>Blue Access Card</strong>"
+            info: "<strong>Blue Access Card</strong>",
+            colorClass: "pinpoint-blue" // Assign a color class
         },
         {
             name: "Bunker 8",
             x: 70,
             y: 48.5,
-            info: "<strong>Blue Access Card</strong>"
+            info: "<strong>Blue Access Card</strong>",
+            colorClass: "pinpoint-blue" // Assign a color class
         },
         {
             name: "Bunker 9",
             x: 59,
             y: 81,
-            info: "<strong>Red Access Card</strong>"
+            info: "<strong>Red Access Card</strong>",
+            colorClass: "pinpoint-red" // Assign a color class
         },
         {
             name: "Bunker 10",
             x: 82,
             y: 81,
-            info: "<strong>31547206</strong>"
+            info: "<strong>31547206</strong>",
+            colorClass: "pinpoint-orange" // Assign a color class
         },
         {
             name: "Bunker 11",
             x: 42,
             y: 20,
-            info: "<strong>Locate a red phone that provides a sequence of three numbers spoken in Russian. These numbers must then be translated into English. If the phone disconnects during interaction, it’s an incorrect one, and players will need to search for a different red phone elsewhere on the map</strong>"
+            info: "<strong>Locate a red phone that provides a sequence of three numbers spoken in Russian. These numbers must then be translated into English. If the phone disconnects during interaction, it’s an incorrect one, and players will need to search for a different red phone elsewhere on the map</strong>",
+            colorClass: "pinpoint-orange" // Assign a color class
         }
     ];
 
@@ -105,7 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const createPinpoints = () => {
         // Remove any existing pinpoints to prevent duplicates when resizing
-        document.querySelectorAll('.pinpoint').forEach(pin => pin.remove());
+        // Now targeting all pinpoint classes for removal
+        document.querySelectorAll('.pinpoint-red, .pinpoint-blue, .pinpoint-orange').forEach(pin => pin.remove());
 
         // Get the current rendered dimensions of the map image
         const mapWidth = urzikstanMap.offsetWidth;
@@ -119,7 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Create a new div element for the pinpoint
             const pinpoint = document.createElement('div');
-            pinpoint.classList.add('pinpoint'); // Add the base styling class
+            // Dynamically add the specific color class
+            pinpoint.classList.add(location.colorClass);
             pinpoint.style.left = `${posX}px`; // Set horizontal position
             pinpoint.style.top = `${posY}px`;   // Set vertical position
             pinpoint.dataset.index = index; // Store the index to easily retrieve location data later
@@ -128,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
             pinpoint.textContent = index + 1;
 
             // Attach a click event listener to each pinpoint
-            // Note: 'click' events generally work well on mobile (they translate touch taps)
             pinpoint.addEventListener('click', () => handlePinClick(location));
 
             // Append the newly created pinpoint to the map container
@@ -145,8 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         popupTitle.innerHTML = locationData.name; // Set the title of the popup
         popupInfo.innerHTML = locationData.info;   // Set the information content of the popup
         popupOverlay.classList.add('active');      // Add 'active' class to show the popup (CSS handles visibility)
-        // For mobile, you might want to ensure the popup is scrollable if content is long
-        // (This is usually handled by CSS, e.g., max-height and overflow-y: auto for popup-content)
     };
 
     /**
